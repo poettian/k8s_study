@@ -7,6 +7,10 @@
 
 # sudo vi /etc/hostname
 
+# install docker
+sudo apt install docker.io
+sudo usermod -aG docker ${USER}
+
 # fix docker issue
 cat <<EOF | sudo tee /etc/docker/daemon.json
 {
@@ -23,9 +27,7 @@ sudo systemctl enable docker
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 
-
 # iptables
-
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 br_netfilter
 EOF
@@ -39,12 +41,10 @@ EOF
 sudo sysctl --system
 
 # Disable Swap
-
 sudo swapoff -a
 sudo sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
 
 # check
-
 echo "please check these files:"
 echo "/etc/docker/daemon.json"
 echo "/etc/modules-load.d/k8s.conf"
